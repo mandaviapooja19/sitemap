@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Home</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<style type="text/css">
+            * {
+                margin: 0;
+                padding: 0;
+                font-family: Arial, Helvetica, sans-serif;
+                box-sizing: border-box;
+            }
+			body {
+				/* margin: 0 auto; */
+				/* max-width: 40em; */
+				/* width: 100%; */
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+			}
+            button {
+                padding: 10px;
+                font-size: 1.1em;
+                background: #32bacf;
+                color: white;
+                border: none;
+                border-radius: 10px;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                cursor: pointer;
+            }
+            #modal-overlay {
+                width: 100%;
+                height: 100vh;
+                position: absolute;
+                background: rgba(0, 0, 0, 0.7);
+                display: none; 
+                /* Change above display to flex for dialog */
+                align-items: center;
+                justify-content: center;
+            }
+            button:hover {
+                background: rgba(0, 0, 0, 0.7);
+            }
+            #modal-overlay #modal-dialog {
+                max-width: 650px;
+                width: 100%;
+                background: white;
+                height: 400px;
+            }
+            button .option-selections {
+                position: absolute;
+                align-items: center;
+                justify-content: center;
+            }
+		</style>
+	</head>
+
+	<body>
+
+		<button class="click-me" id="click-me-1">Click Me</button>
+        <div id="modal-overlay">
+            <div id="modal-dialog">
+                <div class="modal-header">
+                    <h2>Are you sure you want to continue ?</h2>
+                </div>
+                <div class="dialog-options" id="dialog-options">
+                    <!-- <button id="btn-yes" class="option-selections">Yes</button>
+                    <button id="btn-cancel" class="option-selections">Cancel</button> -->
+                </div>
+            </div>
+        </div>
+        <div id="user-response">
+        </div>
+
+		<script>
+			// Get the element
+			
+            // let buttonsToCreate = ["Yes", "Cancel"];
+            let buttonsToCreate = ["Absolutely", "Maybe", "Noooo!!"];
+            createButtons();
+
+            const openDialog = document.getElementById("click-me-1");
+            const modalOverlayWindow = document.getElementById("modal-overlay");
+            
+            const showDialog = () => {
+                console.log('The button was clicked!');
+                modalOverlayWindow.style.display = 'flex';
+            }
+            openDialog.addEventListener("click", showDialog);
+			
+            const userResponse = document.getElementById("user-response");
+            // --------------------------------Create event for buttons that are dynamically created---------------------------------------------
+            
+            const btnClick = document.querySelectorAll(".option-selections");
+            console.log(btnClick);
+            let i=0;
+            do{
+                btnClick[i].addEventListener('click', function (event) {
+                    modalOverlayWindow.style.display = 'none';
+                    displayResponseFromUser(event.srcElement.innerText);
+                });
+                i++;
+                
+            }while(i < buttonsToCreate.length)
+         
+            
+            // -----------------------------------------------------------------------------
+            //const btnYes = document.getElementById("btn-yes");
+            // const btnCancel = document.getElementById("btn-cancel");
+            // btnYes.addEventListener('click', function (event) {
+			// 	console.log('The button Yes was clicked!');
+            //     modalOverlayWindow.style.display = 'none';
+            //     displayResponseFromUser("Yes");
+			// });
+            // btnCancel.addEventListener('click', function (event) {
+			// 	console.log('The button Cancel was clicked!');
+            //     modalOverlayWindow.style.display = 'none';
+            //     displayResponseFromUser("Cancel");
+			// });
+
+            // Listen for clicks on it
+			// btn.addEventListener('click', function (event) {
+			// 	console.log('The button was clicked!');
+			// 	console.log(event); // The event details
+			// 	console.log(event.target); // The clicked element
+			// });
+
+            function createButtons (){
+                const dialogOptionDiv = document.getElementById("dialog-options");
+                for(let buttonToCreate of buttonsToCreate){
+                    const button = document.createElement("button");
+                    button.className = "option-selections";
+                    button.textContent = buttonToCreate;
+                    dialogOptionDiv.appendChild(button);
+                }                
+            }
+
+            function displayResponseFromUser (response){
+                userResponse.textContent = `You just clicked \"${response}\"`;
+            }
+
+
+		</script>
+	</body>
+</html>
